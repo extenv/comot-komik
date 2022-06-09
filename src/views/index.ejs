@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="/img.jpg" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <script defer src="https://unpkg.com/alpinejs@3.9.5/dist/cdn.min.js"></script>
+    <title>Comik | Comot Komik</title>
+</head>
+<style>
+    @font-face {
+        font-family: Poppins;
+        src: url('/fonts/pop.ttf');
+    }
+</style>
+<script>
+    function badId() {
+      return (Math.random() * 99999).toFixed(0);
+    }
+  </script>
+<body style="font-family: Poppins;" class="select-none"
+ x-data="{ bookmarks:false, darkMode: localStorage.getItem('dark') === 'true'}"
+ x-init="$watch('darkMode', val => localStorage.setItem('dark', val))"
+x-bind:class="{ 'dark': darkMode }">
+<div x-data="{ myBookmarks: JSON.parse(localStorage.getItem('myBookmarks') || '[]')}"
+      x-init="$watch('myBookmarks', (val) => localStorage.setItem('myBookmarks', JSON.stringify(val)))"
+    class="w-full h-full bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto min-h-screen flex flex-col justify-center items-center">
+            <div class="container mx-auto mt-24 sm:mt-0 p-2 sm:p-14 flex flex-col ">
+    <label class="w-full"><h1 onclick="location.href='/'" class="text-center font-bold text-gray-700 dark:text-white text-4xl cursor-pointer">Comot Komik</h1></label>
+                    <p class="mx-auto font-normal text-center text-gray-700  text-base sm:text-xl my-6 dark:text-white ">Baca dan unduh
+                        komik dari
+                        bebagai macam website tanpa <b class="text-yellow-600">popup iklan</b>
+                </p>
+                <form method="post" action="/">
+                  <div class=" bg-white dark:bg-gray-700 rounded flex items-center w-full p-3 shadow-sm border border-gray-200">
+                         <button  class="outline-none focus:outline-none"><svg class=" w-5 text-gray-600 dark:text-white h-5 cursor-pointer" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
+                         <input type="search" name="search" id="search"  placeholder="Cari dengan judul lengkap" class="w-full pl-4 text-sm outline-none focus:outline-none bg-transparent text-gray-600 dark:text-white" required>
+                         <select name="host" id="host"  class="text-sm outline-none focus:outline-none bg-transparent text-gray-700 dark:text-white">
+                            <option value="" disabled>Web Indonesia</option>
+                            <option value="komikcast" selected>komikcast.com</option>
+                             <option value="" disabled>RAW</option>
+                         </select>
+                     </div>
+                </form>
+                <div
+                    class="text-gray-700 dark:text-white container mx-auto w-full text-sm sm:text-lg mt-5 flex flex-row justify-center items-center space-x-5">
+                    <button onclick="window.open('https://trakteer.id/extenv/tip')" class="hover:scale-95 transform focus:outline-none">Donate</button>
+                    <button @click="bookmarks = true" class="hover:scale-95 transform focus:outline-none">Bookmarks</button>
+                    <button @click="darkMode = !darkMode"  class="hover:scale-95 transform focus:outline-none">
+                        <span x-show="!darkMode">Dark Mode</span>
+                        <span x-show="darkMode">Light Mode</span>
+                    </button>
+                </div>
+                <% if(dataKomik.length == 1){%> 
+                    <div class="w-full text-2xl mt-12 mb-5  pb-5 border-b text-gray-700 dark:text-white text-center"><h1>Hasil Pencarian</h1></div>
+                        <div class="w-full flex justify-center items-center p-2">
+                            <div class="max-w-2xl w-full flex flex-col justify-center items-center text-gray-700 dark:text-white bg-white dark:bg-gray-600 p-5 rounded-md tracking-wide ">
+                              <div class="flex flex-row space-x-2 w-full">
+                                <img src="<%- dataKomik[0].image %>" alt="image" class="w-32 h-32 rounded">
+                                <div class="flex flex-col space-y-2">
+                                    <span>Judul : <%- dataKomik[0].title %></span>
+                                    <span>Genre : <%- dataKomik[0].genre %></span>
+                                    <span>Info : <%- dataKomik[0].info %></span>
+                                </div>
+                              </div>
+                              <div class="flex flex-col mt-5 space-y-5 w-full justify-start items-start text-left overflow-hidden">
+                               <div class="w-full">
+                                <h1>Sinopsis</h1>
+                                <p class="flex flex-wrap mt-2">
+                                    <%- dataKomik[0].description %>
+                                </p>
+                               </div>
+                               <div class="w-full space-x-2 sm:space-x-5 flex flex-row justify-center items-center">
+                                <button class="flex flex-row justify-center items-center space-x-1 text-sm focus:outline-none p-2 cursor-not-allowed bg-gray-300 hover:bg-gray-300 text-white rounded">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-7 h-7" viewBox="0 0 16 16">
+                                            <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"/>
+                                          </svg>
+                                    <span>All Chapter</span></button>
+                                        <form id="fm" @submit.stop.prevent="myBookmarks = [].concat({ id:  badId(), image: '<%- dataKomik[0].image %>', title: '<%- dataKomik[0].title %>',q: '<%- search.replaceAll('-',' ') %>',h:'<%- host %>' }, myBookmarks);">
+                                      <button @click="document.getElementById('fm').style.display = 'none';" class="flex flex-row justify-center items-center space-x-1 text-sm focus:outline-none p-2 bg-blue-500 hover:bg-blue-600 text-white rounded">
+                                          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-7 h-7" viewBox="0 0 16 16">
+                                              <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm6.5-11a.5.5 0 0 0-1 0V6H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V7H10a.5.5 0 0 0 0-1H8.5V4.5z"/>
+                                          </svg>
+                                          <span>Bookmarks</span>
+                                  </button>
+                                      </form>
+                               </div>
+                              <div class="w-full">
+                                <h1>List Chapter</h1>
+                                <ul class="mt-2 space-y-2">
+                                    <%  for(var i=0;i < dataKomik[0].listchapter.length; i++){%>
+                                    <%   for(var j = 0; j < dataKomik[0].listchapter[i].length; j++){ %> 
+                                        <li  class="text-gray-700 dark:text-gray-50  flex flex-row justify-between items-center w-full p-4  bg-gray-50 dark:bg-gray-400 hover:bg-gray-100 dark:hover:bg-gray-500 rounded">
+                                            <span onclick="location.href='/read/<%-  urlEncode(dataKomik[0].listchapter[i][j].links) %>?host=<%- host %>'" class="cursor-pointer  hover:text-blue-500"><%-  dataKomik[0].listchapter[i][j].chapter %></span>
+                                          <form action="/downloadchapter/<%-  urlEncode(dataKomik[0].listchapter[i][j].links) %>?h=<%- host %>&q=<%- search %>&n=<%-  dataKomik[0].listchapter[i][j].chapter %>" method="post">
+                                            <button type="submit" class="cursor-pointer  focus:outline-none hover:text-blue-500 ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-7 h-7" viewBox="0 0 16 16">
+                                                    <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z"/>
+                                                  </svg>
+                                            </button>
+                                          </form>
+                                        </li>
+                                        <%  } %> 
+                                        <% } %> 
+                                </ul>
+                             </div>
+                            </div>
+                             </div>
+                        </div>
+                <%}%>
+                <% if(dataKomik == "notfound"){%>
+                    <div class="w-full text-2xl mt-12 mb-5  pb-5 border-b text-gray-700 dark:text-white text-center"><h1>Hasil Pencarian</h1></div>
+              <div class="w-full text-center text-gray-700 dark:text-white text-base">Komik tidak ditemukan </div>
+              <div class="w-full text-center text-red-600  text-base">Pastikan memasukkan judul dengan lengkap atau cek ketersediaan di HOST terkait.</div>
+                <% } %> 
+            </div>
+        </div>
+        <div class="fixed inset-0 w-full  px-1 sm:px-20  z-20 flex justify-center items-center bg-black bg-opacity-50 duration-300 "
+        x-show="bookmarks"  x-transition:enter="transition duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition duration-300"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+        <div class="relative w-full mx-2 sm:mx-auto  opacity-100">
+            <div class="relative bg-white dark:bg-gray-700 shadow-lg rounded-md text-gray-900 z-20" x-show="bookmarks"
+                x-transition:enter="transition transform duration-300" x-transition:enter-start="scale-0"
+                x-transition:enter-end="scale-100" x-transition:leave="transition transform duration-300"
+                x-transition:leave-start="scale-100" x-transition:leave-end="scale-0">
+                <header class="flex items-center justify-between py-4 px-2 shadow">
+                    <h2 class="font-semibold text-lg sm:text-xl text-gray-600 dark:text-white flex flex-row items-center justify-center space-x-1">
+                        <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="w-7 h-7" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zM8.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.178.178 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.178.178 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.178.178 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.178.178 0 0 1-.134-.098L8.16 4.1z"/>
+                        </svg>
+                        <span>Bookmarks</span>
+                    </h2>
+                    <button class="focus:outline-none p-2 text-gray-600 dark:text-white" @click="bookmarks = false"   >
+                        <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                            viewBox="0 0 18 18">
+                            <path
+                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                            </path>
+                        </svg>
+                    </button>
+                </header>
+                <main class="px-2 py-2 h-96 overflow-y-auto">
+                    <div class="px-2 py-4  flex flex-row justify-center w-full  space-x-2   text-xs  ">
+                        <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 gap-4 overflow-hidden ">
+                            <template x-for="get in myBookmarks" :key="get.id">
+                                <div class="w-full  rounded-lg bg-gray-50 dark:bg-gray-300 text-gray-700 dark:text-white">
+                                    <div class="flex-wrap space-y-2 p-3 flex justify-center items-center w-full ">
+                                       <img :src="get.image" alt="image" class="w-32 h-32 rounded"> 
+                                            <span class="text-gray-800 text-base text-center  w-full truncate" x-text="get.title"></span>
+                                            <span  class=" w-full text-center text-base text-blue-500" x-text="get.h"></span>
+                                            <div class="flex flex-row  space-x-2 w-full">
+                                                <form action="/" method="post" class="w-full ">
+                                                    <input type="hidden" name="search" :value="get.q">
+                                                    <input type="hidden" name="host" :value="get.h">
+                                                    <button type="submit" class="w-full focus:outline-none rounded text-white bg-blue-500 hover:bg-blue-600 px-4 py-2">Details</button>
+                                                </form>
+                                                <button @click="myBookmarks = myBookmarks.filter(t => t.id !== get.id),document.getElementById('fm').style.display = 'block';"
+                                                class="w-full focus:outline-none rounded text-white bg-red-500 hover:bg-red-600 px-4 py-2">Remove</button>
+                                            </div>
+                                      </div>
+                                </div>
+                             </template>
+                        </div>
+                    </div>
+              </main>
+            </div>
+        </div>
+        </div>
+
+    </div>
+    
+</body>
+<script>
+    const fm = document.getElementById('fm');
+    var mybookmarks = JSON.parse( localStorage.getItem('myBookmarks'));
+    try{
+        for(var i=0; i < mybookmarks.length;i++){
+            if(mybookmarks[i].title.includes('<%- edataKomik %>')){
+            fm.style.display = 'none';
+             }
+      }
+    }catch{
+
+    }
+</script>
+</html>

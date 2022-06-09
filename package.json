@@ -1,0 +1,42 @@
+{
+  "name": "comik",
+  "version": "1.0.0",
+  "description": "website comot komik",
+  "main": "app.js",
+  "author": "Ivan Maulana",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/app.js",
+    "tw:dev": "npx tailwindcss -i src/public/css/tailwind.css -o src/public/css/style.css --watch",
+    "tw:production": "npx tailwindcss -o src/public/css/style.css --minify"
+  },
+  "dependencies": {
+    "base64-url": "^2.3.3",
+    "cheerio": "^1.0.0-rc.11",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "download": "^8.0.0",
+    "downzip": "^2.0.0",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-zip": "^3.0.0",
+    "file-download": "^0.1.2",
+    "file-fetch": "^1.7.0",
+    "html-urls": "^2.4.36",
+    "localStorage": "^1.0.4",
+    "nanoid": "^3.3.4",
+    "node-html-parser": "^5.3.3",
+    "node-image-downloader": "^1.0.7",
+    "pretty": "^2.0.0",
+    "save-file": "^2.3.1",
+    "zip-downloader": "^1.0.2",
+    "zip-folder": "^1.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.7",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.16",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.0.24"
+  }
+}
