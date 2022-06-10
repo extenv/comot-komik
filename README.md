@@ -1,2 +1,2 @@
 # Comot Komik
-Scrap web komik
+Scrap web komik for read and download without ads
